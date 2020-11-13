@@ -92,7 +92,7 @@ public class pA {
         }
     }
     //metodo que recoge y enviara las variables (Privado por ahora)
-    private void sendResponse(String estado, String strMensIP) {
+    public void sendResponse(String estado, String strMensIP) {
         System.out.println("ESTADO: "+estado);
         System.out.println("ENVIAR A: "+strMensIP);
     }
