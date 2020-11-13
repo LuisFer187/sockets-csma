@@ -5,6 +5,10 @@
  */
 package puntodeacceso;
 
+import java.net.*;
+import java.util.Enumeration;
+import java.util.Hashtable;
+
 /**
  *
  * @author navy
@@ -47,17 +51,24 @@ package puntodeacceso;
                   '╙╝╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╣
 
  */
-public class pA {
+public class pA extends Thread{
     private String strMiIP = "";
     private String strMensajeroIP = "";
     private int intPaquetes = 0;
-    private String strEstado = "";
-    private String strEstadoAnterior = "";
+    private String strEstado = "LIBRE";
+    private String strEstadoAnterior = "LIBRE";
     private String strEstadoMensajero = "";
     private String strEstadoMensajeroAnterior = "";
+    private Hashtable<Integer, Socket> clientes;
     
-    public void pA(){
+    public void pa(){
+        
+    }
     
+    public void pA(Hashtable<Integer, Socket> clientes){
+        this.clientes = clientes;
+        
+        start();
     }
     
     public void pA(
@@ -76,30 +87,56 @@ public class pA {
         this.setStrEstadoMensajeroAnterior(strEstadoMensajeroAnterior);
         this.setIntPaquetes(intPaquetes);
     }
+    
+    
     // El punto puede estar en los estados LIBRE, (OCUPADO+IPMENSAJERO)
-    public void puntoAcceso(){
+    public void run(){
+        //Con otro ciclo para que siempre este atendiendo0
+        
+        while(true){
+            Enumeration<Integer> keys = this.clientes.keys();
+ 
+            //itera usando loop
+            while( keys.hasMoreElements() ){
+                System.out.println( keys.nextElement() );
+                if (this.getStrEstado()=="LIBRE") {
+                    this.setStrEstadoAnterior("LIBRE");
+                    this.setStrEstado("OCUPADO" + this.getStrMensajeroIP());
+                    sendResponse("CTS", this.getStrMensajeroIP());
+                }
+                else if (this.getStrEstado()=="OCUPADO"+this.getStrMensajeroIP()) {
+                    sendResponse("Recibiendo datos de "+this.getStrMensajeroIP(), this.getStrMensajeroIP());
+
+                }
+                else if (this.getStrEstado().contains("OCUPADO")==true){
+                    sendResponse("OCUPADO", this.getStrMensajeroIP());
+                }          
+                
+            }
+        }
+    }
+    
+    public void punto(){
         if (this.getStrEstado()=="LIBRE") {
-            this.setStrEstadoAnterior("LIBRE");
-            this.setStrEstado("OCUPADO" + this.getStrMensajeroIP());
-            sendResponse("CTS", this.getStrMensajeroIP());
-        }
-        else if (this.getStrEstado()=="OCUPADO"+this.getStrMensajeroIP()) {
-            sendResponse("Recibiendo datos de "+this.getStrMensajeroIP(), this.getStrMensajeroIP());
-            
-        }
-        else if (this.getStrEstado().contains("OCUPADO")==true){
-            sendResponse("OCUPADO", this.getStrMensajeroIP());
-        }
+                this.setStrEstadoAnterior("LIBRE");
+                this.setStrEstado("OCUPADO" + this.getStrMensajeroIP());
+                sendResponse("CTS", this.getStrMensajeroIP());
+            }
+            else if (this.getStrEstado()=="OCUPADO"+this.getStrMensajeroIP()) {
+                sendResponse("Recibiendo datos de "+this.getStrMensajeroIP(), this.getStrMensajeroIP());
+
+            }
+            else if (this.getStrEstado().contains("OCUPADO")==true){
+                sendResponse("OCUPADO", this.getStrMensajeroIP());
+            }
     }
     //metodo que recoge y enviara las variables (Privado por ahora)
     public void sendResponse(String estado, String strMensIP) {
         System.out.println("ESTADO: "+estado);
         System.out.println("ENVIAR A: "+strMensIP);
+        
+        
     }
-    
-    
-    
-    
     
     
     

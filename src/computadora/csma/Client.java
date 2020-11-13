@@ -7,6 +7,7 @@ package computadora.csma;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 
 /**
  *
@@ -25,10 +26,13 @@ public class Client{
             System.out.println("Conectado"); 
   
             // toma alguna entrada
-            input  = new DataInputStream(System.in); 
+            InputStream stream = new ByteArrayInputStream("Mensaje trivial".getBytes(StandardCharsets.UTF_8));
+            input  = new DataInputStream(stream);
+            
   
             //manda algo
             out    = new DataOutputStream(socket.getOutputStream()); 
+            out.writeUTF("Mensaje trivial" + address);
         } 
         catch(UnknownHostException u){ 
             System.out.println(u); 
@@ -46,5 +50,8 @@ public class Client{
         catch(IOException i){ 
             System.out.println(i); 
         } 
-    } 
+    }
+    public void main(String [] args){
+        Client c = new Client("187.191.38.2", 5000); //Dejare la ip vacia por el momento
+    }
 }

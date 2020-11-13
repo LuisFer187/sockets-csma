@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.net.*;
 import java.util.Hashtable;
+import puntodeacceso.pA;
 /**
  *
  * @author Luis Fernando Tenorio 
@@ -37,9 +38,18 @@ public class Algoritmo extends Thread{
             //Un ciclo para inspeccionar los estados y realizar 
             ServerSocket ss = new ServerSocket (5000);
             Hashtable<Integer, Socket> cliente_tiempo = new Hashtable<Integer, Socket>();
+            pA punto = new pA();
             while(true){
                 if (ss.accept() != null) {
-                    cliente_tiempo.put(ss.getSoTimeout(), ss.accept());
+                    long startTime = System.nanoTime();
+
+                    long endTime = System.nanoTime();
+
+                    System.out.println("Duración: " + (endTime-startTime)/1e6 + " ms");
+                    int time = (int) ((int)(endTime-startTime)/1e6);
+                    cliente_tiempo.put(time, ss.accept());
+                    
+                    
                 }            
             }
         } catch (Exception e) {
