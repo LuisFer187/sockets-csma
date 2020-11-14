@@ -73,8 +73,8 @@ public class pA extends Thread{
         
     }
     
-    public void pA(Hashtable<Integer, Socket> clientes, String strMensajeroIP){
-        this.strMensajeroIP = strMensajeroIP;
+    public void pA(Hashtable<Integer, Socket> clientes){
+        //this.strMensajeroIP = strMensajeroIP;
         this.clientes = clientes;
         
         start();
@@ -129,6 +129,10 @@ public class pA extends Thread{
                 }
                 else if (this.getStrEstado().contains("OCUPADO")==true){
                     sendResponse("OCUPADO", this.getStrMensajeroIP());
+                }else if( this.getStrEstadoAnterior().contains("OCUPADO")==true && this.clientes == new Hashtable<Integer, Socket>() ){
+                    this.setStrEstadoAnterior("LIBRE");
+                    this.setStrEstado("LIBRE" + this.getStrMensajeroIP());
+                    sendResponse("LIBRE", "LIBRE");
                 }          
             }
         }
@@ -155,7 +159,10 @@ public class pA extends Thread{
         
         
     }
-    
+    public static void main(String[] args) {
+        // TODO code application logic here
+        
+    }
     
     
     // Getters Y Setters

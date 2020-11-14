@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets;
 
 /**
  *
- * @author familia
+ * @author Luis Fernando Tenorio Aspiros
  */
 public class Client{
     private Socket socket = null; 

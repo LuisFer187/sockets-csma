@@ -38,9 +38,9 @@ public class Algoritmo extends Thread{
             //Un ciclo para inspeccionar los estados y realizar 
             ServerSocket ss = new ServerSocket (5000);
             Hashtable<Integer, Socket> cliente_tiempo = new Hashtable<Integer, Socket>();
-            pA punto = new pA();
             while(true){
                 if (ss.accept() != null) {
+                    pA punto = new pA(cliente_tiempo);
                     long startTime = System.nanoTime();
 
                     long endTime = System.nanoTime();
