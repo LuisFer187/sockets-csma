@@ -5,9 +5,16 @@
  */
 package puntodeacceso;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.*;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -65,7 +72,8 @@ public class pA extends Thread{
         
     }
     
-    public void pA(Hashtable<Integer, Socket> clientes){
+    public void pA(Hashtable<Integer, Socket> clientes, String strMensajeroIP){
+        this.strMensajeroIP = strMensajeroIP;
         this.clientes = clientes;
         
         start();
@@ -94,23 +102,35 @@ public class pA extends Thread{
         //Con otro ciclo para que siempre este atendiendo0
         
         while(true){
-            Enumeration<Integer> keys = this.clientes.keys();
- 
+            Set<Integer> keys = this.clientes.keySet();
+            Iterator<Integer> itr = keys.iterator();
             //itera usando loop
-            while( keys.hasMoreElements() ){
-                System.out.println( keys.nextElement() );
-                if (this.getStrEstado()=="LIBRE") {
-                    this.setStrEstadoAnterior("LIBRE");
-                    this.setStrEstado("OCUPADO" + this.getStrMensajeroIP());
-                    sendResponse("CTS", this.getStrMensajeroIP());
-                }
-                else if (this.getStrEstado()=="OCUPADO"+this.getStrMensajeroIP()) {
-                    sendResponse("Recibiendo datos de "+this.getStrMensajeroIP(), this.getStrMensajeroIP());
+            while( itr.hasNext() ){
+                Object ob = itr.next();
+                Socket so = (Socket)ob;
+                InputStream aux;
+                try {
+                    aux = so.getInputStream();
+                    DataInputStream flujo = new DataInputStream( aux );
+                    this.setStrMensajeroIP(so.getInetAddress().toString());
+                    
+                    
+                    if (this.getStrEstado()=="LIBRE") {
+                        this.setStrEstadoAnterior("LIBRE");
+                        this.setStrEstado("OCUPADO" + this.getStrMensajeroIP());
+                        sendResponse("CTS", this.getStrMensajeroIP());
+                    }
+                    else if (this.getStrEstado()=="OCUPADO"+this.getStrMensajeroIP()) {
+                        sendResponse("Recibiendo datos de "+this.getStrMensajeroIP(), this.getStrMensajeroIP());
 
+                    }
+                    else if (this.getStrEstado().contains("OCUPADO")==true){
+                        sendResponse("OCUPADO", this.getStrMensajeroIP());
+                    }          
+                } catch (IOException ex) {
+                    Logger.getLogger(pA.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                else if (this.getStrEstado().contains("OCUPADO")==true){
-                    sendResponse("OCUPADO", this.getStrMensajeroIP());
-                }          
+
                 
             }
         }
