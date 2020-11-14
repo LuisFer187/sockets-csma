@@ -12,6 +12,7 @@ import java.net.*;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -102,36 +103,33 @@ public class pA extends Thread{
         //Con otro ciclo para que siempre este atendiendo0
         
         while(true){
-            Set<Integer> keys = this.clientes.keySet();
-            Iterator<Integer> itr = keys.iterator();
+            //Set<Integer> keys = this.clientes.keySet();
+            //Iterator<Integer> itr = keys.iterator();
             //itera usando loop
-            while( itr.hasNext() ){
-                Object ob = itr.next();
-                Socket so = (Socket)ob;
-                InputStream aux;
-                try {
-                    aux = so.getInputStream();
-                    DataInputStream flujo = new DataInputStream( aux );
-                    this.setStrMensajeroIP(so.getInetAddress().toString());
-                    
-                    
-                    if (this.getStrEstado()=="LIBRE") {
-                        this.setStrEstadoAnterior("LIBRE");
-                        this.setStrEstado("OCUPADO" + this.getStrMensajeroIP());
-                        sendResponse("CTS", this.getStrMensajeroIP());
-                    }
-                    else if (this.getStrEstado()=="OCUPADO"+this.getStrMensajeroIP()) {
-                        sendResponse("Recibiendo datos de "+this.getStrMensajeroIP(), this.getStrMensajeroIP());
-
-                    }
-                    else if (this.getStrEstado().contains("OCUPADO")==true){
-                        sendResponse("OCUPADO", this.getStrMensajeroIP());
-                    }          
-                } catch (IOException ex) {
-                    Logger.getLogger(pA.class.getName()).log(Level.SEVERE, null, ex);
+            //Object ob = itr.next();
+            //Socket so = (Socket)ob;
+            //InputStream aux;
+            //aux = so.getInputStream();
+            //DataInputStream flujo = new DataInputStream( aux );
+            //this.setStrMensajeroIP(so.getInetAddress().toString());
+            Map<Integer, Socket> map = new Hashtable<Integer, Socket>();
+            for (Map.Entry<Integer, Socket> entry : map.entrySet()) {
+                System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+                Integer time = entry.getKey();
+                Socket so = entry.getValue();
+                this.strMensajeroIP = so.getInetAddress().getHostAddress();
+                if (this.getStrEstado()=="LIBRE") {
+                    this.setStrEstadoAnterior("LIBRE");
+                    this.setStrEstado("OCUPADO" + this.getStrMensajeroIP());
+                    sendResponse("CTS", this.getStrMensajeroIP());
                 }
+                else if (this.getStrEstado()=="OCUPADO"+this.getStrMensajeroIP()) {
+                    sendResponse("Recibiendo datos de "+this.getStrMensajeroIP(), this.getStrMensajeroIP());
 
-                
+                }
+                else if (this.getStrEstado().contains("OCUPADO")==true){
+                    sendResponse("OCUPADO", this.getStrMensajeroIP());
+                }          
             }
         }
     }
