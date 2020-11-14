@@ -26,13 +26,9 @@ public class Client{
             System.out.println("Conectado"); 
   
             // toma alguna entrada
-            InputStream stream = new ByteArrayInputStream("Mensaje trivial".getBytes(StandardCharsets.UTF_8));
-            input  = new DataInputStream(stream);
-            
-  
-            //manda algo
-            out    = new DataOutputStream(socket.getOutputStream()); 
-            out.writeUTF("Mensaje trivial" + address);
+            OutputStream os= socket.getOutputStream();
+            DataOutputStream flujoDOS = new DataOutputStream(os);
+            flujoDOS.writeUTF("Mensaje trivial, " + socket.getInetAddress());
         } 
         catch(UnknownHostException u){ 
             System.out.println(u); 
