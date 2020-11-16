@@ -7,7 +7,7 @@ package puntodeacceso;
 
 /**
  *
- * @author navy
+ * @author Luis Fernando Tenorio Aspiros y Sánchez Gonzales Daniel Ivan
                                                      ╓╣╢╗
                                                   ,╣▒▒▒▒╣
                                                  @▒▒▒▒▒▒▒╢ ▄▄,

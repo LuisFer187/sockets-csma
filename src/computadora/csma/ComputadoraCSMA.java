@@ -7,7 +7,7 @@ package computadora.csma;
 
 /**
  *
- * @author familia
+ * @author Luis Fernando Tenorio Aspiros y Sánchez Gonzales Daniel Ivan
  */
 public class ComputadoraCSMA {
 

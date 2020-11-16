@@ -13,7 +13,7 @@ import java.util.Hashtable;
 import puntodeacceso.pA;
 /**
  *
- * @author Luis Fernando Tenorio 
+ * @author Luis Fernando Tenorio Aspiros y Sánchez Gonzales Daniel Ivan
  */
 public class Algoritmo extends Thread{
     Socket socket;
