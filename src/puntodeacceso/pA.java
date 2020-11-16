@@ -68,17 +68,12 @@ public class pA extends Thread{
     private String strEstadoMensajero = "";
     private String strEstadoMensajeroAnterior = "";
     private Hashtable<Integer, Socket> clientes;
-    
-    public void pa(){
-        
-    }
-    
-    public void pA(Hashtable<Integer, Socket> clientes){
-        //this.strMensajeroIP = strMensajeroIP;
+
+    public pA(Hashtable<Integer, Socket> clientes) {
         this.clientes = clientes;
-        
-        start();
     }
+    
+    
     
     public void pA(
             String strMiIP,
@@ -157,10 +152,6 @@ public class pA extends Thread{
         System.out.println("ESTADO: "+estado);
         System.out.println("ENVIAR A: "+strMensIP);
         
-        
-    }
-    public static void main(String[] args) {
-        // TODO code application logic here
         
     }
     

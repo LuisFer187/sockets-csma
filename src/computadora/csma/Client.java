@@ -47,7 +47,10 @@ public class Client{
             System.out.println(i); 
         } 
     }
-    public void main(String [] args){
-        Client c = new Client("187.191.38.2", 5000); //Dejare la ip vacia por el momento
+    
+    public static void main(String[] args) {
+        // TODO code application logic here
+        Client c = new Client("localhost", 5000); //Dejare la ip vacia por el momento
+        
     }
 }
