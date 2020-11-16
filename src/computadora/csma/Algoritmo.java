@@ -42,18 +42,17 @@ public class Algoritmo extends Thread{
             //Un ciclo para inspeccionar los estados y realizar 
             ServerSocket ss = new ServerSocket (5000);
             Hashtable<Integer, Socket> cliente_tiempo = new Hashtable<Integer, Socket>();
-            pA punto;
             while(true){
                 if (ss.accept() != null) {
                     long startTime = System.nanoTime();
 
                     long endTime = System.nanoTime();
 
-                    System.out.println("Duración: " + (endTime-startTime)/1e6 + " ms");
+                    System.out.println("Duración: " + (int)(endTime-startTime)/1e6 + " ms");
                     int time = (int) ((int)(endTime-startTime)/1e6);
                     cliente_tiempo.put(time, ss.accept());
-                    punto = new pA(cliente_tiempo);
-                    
+                    pA punto = new pA(cliente_tiempo);
+                    System.out.println("Estado del punto: " + punto.getStrEstado());
                 }            
             }
         } catch (Exception e) {

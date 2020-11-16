@@ -37,6 +37,7 @@ public class Client{
             System.out.println(i); 
         } 
   
+        /*
         // Cerrar conexion 
         try{ 
             input.close(); 
@@ -46,11 +47,17 @@ public class Client{
         catch(IOException i){ 
             System.out.println(i); 
         } 
+                */
     }
     
     public static void main(String[] args) {
         // TODO code application logic here
-        Client c = new Client("localhost", 5000); //Dejare la ip vacia por el momento
+        try {
+            Client c = new Client("localhost", 5000); //Dejare la ip vacia por el momento
+            System.out.println("");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         
     }
 }
