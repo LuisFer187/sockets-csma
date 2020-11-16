@@ -71,6 +71,7 @@ public class pA extends Thread{
 
     public pA(Hashtable<Integer, Socket> clientes) {
         this.clientes = clientes;
+        start();
     }
     
     
@@ -107,7 +108,7 @@ public class pA extends Thread{
             //aux = so.getInputStream();
             //DataInputStream flujo = new DataInputStream( aux );
             //this.setStrMensajeroIP(so.getInetAddress().toString());
-            Map<Integer, Socket> map = new Hashtable<Integer, Socket>();
+            Map<Integer, Socket> map = this.clientes;
             for (Map.Entry<Integer, Socket> entry : map.entrySet()) {
                 System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
                 Integer time = entry.getKey();
